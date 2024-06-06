@@ -25,7 +25,7 @@ public class EmployeePortal extends FlightManagementSystem{
 
         menuFrame = new JFrame("Funcionario Portal");
         // Set the background image
-        String imagePath = "V:/NewFlightManagementSystem/NewFlightManagementSystem/src/a.jpg"; // Replace with the path to your image file
+        String imagePath = "C:/Users/Aluno 3/Downloads/Airlines/src/a.jpg"; // Replace with the path to your image file
         BufferedImage backgroundImage = ImageIO.read(new File(imagePath));
         menuFrame.setContentPane(new JPanel() {
             @Override
@@ -51,7 +51,7 @@ public class EmployeePortal extends FlightManagementSystem{
             pstmt.setInt(1, id);
             resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
-                nameLabel = new JLabel("Ola" + resultSet.getString(1)+",");
+                nameLabel = new JLabel("Olá " + resultSet.getString(1)+",");
                 nameLabel.setFont(new Font("Arial", Font.BOLD, 25));
                 nameLabel.setBounds(40, 160, 800, 50);
                 menuFrame.add(nameLabel);
@@ -126,7 +126,7 @@ public class EmployeePortal extends FlightManagementSystem{
         Timer timer = new Timer(1000, e -> updateDate());
         timer.start();
 
-        ImageIcon bellIcon = new ImageIcon("V:/NewFlightManagementSystem/NewFlightManagementSystem/src/bell_icon.png");
+        ImageIcon bellIcon = new ImageIcon("C:/Users/Aluno 3/Downloads/Airlines/src/bell_icon.png");
         Image scaledImage = bellIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         ImageIcon scaledBellIcon = new ImageIcon(scaledImage);
 
@@ -182,10 +182,10 @@ public class EmployeePortal extends FlightManagementSystem{
     private void updateNotificationIcon() {
         ImageIcon bellIcon;
         if (hasNotification) {
-            bellIcon = new ImageIcon("V:/NewFlightManagementSystem/NewFlightManagementSystem/src/bell_with_notification.png"); // Replace with the path to your bell icon with a notification dot
+            bellIcon = new ImageIcon("C:/Users/Aluno 3/Downloads/Airlines/src/bell_with_notification.png"); // Replace with the path to your bell icon with a notification dot
             notificationLabel.setToolTipText("Clique para ver configurações");
         } else {
-            bellIcon = new ImageIcon("V:/NewFlightManagementSystem/NewFlightManagementSystem/src/bell_icon.png");
+            bellIcon = new ImageIcon("C:/Users/Aluno 3/Downloads/Airlines/src/bell_icon.png");
             notificationLabel.setToolTipText("Sem novas notificações");
         }
 

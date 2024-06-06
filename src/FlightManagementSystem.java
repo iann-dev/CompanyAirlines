@@ -183,14 +183,12 @@ public class FlightManagementSystem extends JFrame implements ActionListener {
     }
     //////////////////////////////////////////////////////////////////////////////////////////////
     private Employee getEmployee(String username, String password) {
-//        Login login = new Login();
         Employee employee = null;
         try {
             JdbcConnector jdbcConnector = new JdbcConnector();
             jdbcConnector.connect();
             Connection conn = jdbcConnector.getConnection();
-            jdbcConnector.connect();
-            String sql = "SELECT * FROM employee WHERE username = '"+username+"' AND password = '"+password+"'";
+            String sql = "SELECT * FROM employee WHERE username = ? AND password = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
             pstmt.setString(2, password);
@@ -198,7 +196,7 @@ public class FlightManagementSystem extends JFrame implements ActionListener {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 setVisible(false);
-                String name = rs.getString("nome");
+                String name = rs.getString("name");
                 int empId = rs.getInt("id");
                 employee = new Employee(name, empId, username, password);
                 new EmployeePortal();
@@ -212,6 +210,7 @@ public class FlightManagementSystem extends JFrame implements ActionListener {
         }
         return employee;
     }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     public class Employee {
         private String name;
