@@ -5,112 +5,108 @@ import java.awt.*;
 import java.sql.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-public class ManagerManagementPanel extends FlightManagementSystem{
-    JFrame manFrame;
-    public ManagerManagementPanel() throws SQLException{
-        manFrame = new JFrame("MG Portal");
-        JLabel welcomeLabel = new JLabel("Manager Management Portal");
+public class EmployeeManagementPanel extends FlightManagementSystem{
+    JFrame empFrame;
+    static int flag =0;
+    public static void SetTrue(int n){
+        flag = n;
+    }
+    public EmployeeManagementPanel() throws SQLException{
+        empFrame = new JFrame("Portal Gerenciamento de Funcionarios ");
+        JLabel welcomeLabel = new JLabel("Portal Gerenciamento de Funcionarios ");
         welcomeLabel.setFont(new Font("Times New Roman", Font.BOLD, 32));
-        welcomeLabel.setBounds(160, 130, 500, 50);
-        manFrame.add(welcomeLabel);
+        welcomeLabel.setBounds(160, 130, 500, 50); // Adjust the width to accommodate the text
+        empFrame.add(welcomeLabel);
 
-        JButton viewManButton = new JButton("View all Managers");
-        viewManButton.setBounds(200, 200, 300, 40);
-        viewManButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        viewManButton.setFocusPainted(false);
-        viewManButton.addActionListener(actionEvent -> {
+        JButton viewEmpButton = new JButton("Ver todos funcionarios");
+        viewEmpButton.setBounds(200, 200, 300, 40);
+        viewEmpButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        viewEmpButton.setFocusPainted(false);
+        viewEmpButton.addActionListener(actionEvent -> {
             try {
-                viewManager();
+                viewEmployee();
             } catch (SQLException throwable) {
                 throwable.printStackTrace();
             }
         });
-        manFrame.add(viewManButton);
+        empFrame.add(viewEmpButton);
 
-        JButton addManButton = new JButton("Add a manager");
-        addManButton.setBounds(200, 270, 300, 40);
-        addManButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        addManButton.setFocusPainted(false);
-        addManButton.addActionListener(actionEvent -> {
+        JButton addEmpButton = new JButton("Adicionar funcionarios");
+        addEmpButton.setBounds(200, 270, 300, 40);
+        addEmpButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        addEmpButton.setFocusPainted(false);
+        addEmpButton.addActionListener(actionEvent -> {
             try {
-                addManager();
+                addEmployee();
             } catch (SQLException throwable) {
                 throwable.printStackTrace();
             }
         });
-        manFrame.add(addManButton);
+        empFrame.add(addEmpButton);
 
-        JButton editManButton = new JButton("Edit a manager");
-        editManButton.setBounds(200, 340, 300, 40);
-        editManButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        editManButton.setFocusPainted(false);
-        editManButton.addActionListener(actionEvent -> {
+        JButton editEmpButton = new JButton("Editar um funcionario");
+        editEmpButton.setBounds(200, 340, 300, 40);
+        editEmpButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        editEmpButton.setFocusPainted(false);
+        editEmpButton.addActionListener(actionEvent -> {
             try {
-                editManager();
+                editEmployee();
             } catch (SQLException throwable) {
                 throwable.printStackTrace();
             }
         });
-        manFrame.add(editManButton);
+        empFrame.add(editEmpButton);
 
-        JButton deleteManButton = new JButton("Delete a manager");
-        deleteManButton.setBounds(200, 410, 300, 40);
-        deleteManButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        deleteManButton.setFocusPainted(false);
-        deleteManButton.addActionListener(deleteEvent -> {
-            deleteManager();
+        JButton deleteEmpButton = new JButton("Deletar um funcionario");
+        deleteEmpButton.setBounds(200, 410, 300, 40);
+        deleteEmpButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        deleteEmpButton.setFocusPainted(false);
+        deleteEmpButton.addActionListener(deleteEvent -> {
+            deleteEmployee();
         });
-        manFrame.add(deleteManButton);
+        empFrame.add(deleteEmpButton);
 
-        JButton exitButton = new JButton("Back");
+        JButton exitButton = new JButton("Voltar");
         exitButton.setBounds(200, 480, 300, 40);
         exitButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         exitButton.setFocusPainted(false);
 
         exitButton.addActionListener(actionEvent -> {
-            manFrame.dispose();
-            AdminPortal.AdmenuFrame.setVisible(true);
-
+            empFrame.dispose();
+            if(flag==1){
+                ManagerPortal.menuFrame.setVisible(true);
+            }
+            else if(flag==2) {
+                AdminPortal.AdmenuFrame.setVisible(true);
+            }
         });
-        manFrame.add(exitButton);
+        empFrame.add(exitButton);
 
-        manFrame.setSize(700, 750);
-        manFrame.getContentPane().setBackground(new Color(2, 174, 248));
-        LineBorder blackBorder = new LineBorder(new Color(1, 25, 86), 7);
-        manFrame.getRootPane().setBorder(blackBorder);
-        manFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        manFrame.setLayout(null);
-        manFrame.setVisible(true);
-        manFrame.setLocationRelativeTo(null);
+        empFrame.setSize(700, 750);
+        empFrame.getContentPane().setBackground(new Color(47, 236, 4));
+        LineBorder blackBorder = new LineBorder(new Color(3, 86, 1), 7);
+        empFrame.getRootPane().setBorder(blackBorder);
+        empFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        empFrame.setLayout(null);
+        empFrame.setVisible(true);
+        empFrame.setLocationRelativeTo(null);
     }
 
-    public void viewManager() throws SQLException{
-        manFrame.setVisible(false);
+    public void viewEmployee() throws SQLException{
+        empFrame.setVisible(false);
 
-        JFrame frame=new JFrame("Manager Records");
+        JFrame frame=new JFrame("Lista Funcionarios");
         JPanel panel=new JPanel();
         JdbcConnector jdbcConnector = new JdbcConnector();
         jdbcConnector.connect();
         Connection conn = jdbcConnector.getConnection();
         jdbcConnector.connect();
         Statement statement = conn.createStatement();
-        String q = "select * from manager";
+        String q = "select * from employee";
         ResultSet resultSet = statement.executeQuery(q);
 
         while (resultSet.next()) {
-            JPanel managerCard = new JPanel();
-
-            JLabel unameLabel = new JLabel("Username");
-            unameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-            JLabel unameVal = new JLabel(resultSet.getString(1));
-            unameVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-            JLabel passLabel = new JLabel("Password");
-            passLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-            JLabel passVal = new JLabel(resultSet.getString(2));
-            passVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+            JPanel employeeCard = new JPanel();
 
             JLabel idLabel = new JLabel("ID");
             idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -118,62 +114,81 @@ public class ManagerManagementPanel extends FlightManagementSystem{
             JLabel idVal = new JLabel(String.valueOf(resultSet.getInt(3)));
             idVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-            JLabel nameLabel = new JLabel("Name");
+            JLabel nameLabel = new JLabel("Nome");
             nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
             JLabel nameVal = new JLabel(resultSet.getString(4));
             nameVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
+            JLabel genderLabel = new JLabel("Genero");
+            genderLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+            JLabel genderVal = new JLabel(resultSet.getString(5));
+            genderVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+            JLabel phoneLabel = new JLabel("Numero de telefone");
+            phoneLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+            JLabel phoneVal = new JLabel(String.valueOf(resultSet.getInt(6)));
+            phoneVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
             JLabel emailLabel = new JLabel("Email");
             emailLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-            JLabel emailVal = new JLabel(resultSet.getString(5));
+            JLabel emailVal = new JLabel(resultSet.getString(7));
             emailVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-            JLabel deptLabel = new JLabel("Department");
-            deptLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+            JLabel designationLabel = new JLabel("Designação");
+            designationLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-            JLabel deptVal = new JLabel(resultSet.getString(6));
-            deptVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+            JLabel designationVal = new JLabel(resultSet.getString(8));
+            designationVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-            managerCard.add(unameLabel);
-            managerCard.add(unameVal);
-            managerCard.add(passLabel);
-            managerCard.add(passVal);
-            managerCard.add(idLabel);
-            managerCard.add(idVal);
-            managerCard.add(nameLabel);
-            managerCard.add(nameVal);
-            managerCard.add(emailLabel);
-            managerCard.add(emailVal);
-            managerCard.add(deptLabel);
-            managerCard.add(deptVal);
+            JLabel salaryLabel = new JLabel("Salario");
+            salaryLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-            managerCard.setSize(1000, 400);
-            managerCard.setBackground(new Color(166, 209, 230));
-            managerCard.setBorder(new EmptyBorder(20, 50, 20, 50));
+            JLabel salaryVal = new JLabel(String.valueOf(resultSet.getInt(9)));
+            salaryVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+            employeeCard.add(idLabel);
+            employeeCard.add(idVal);
+            employeeCard.add(nameLabel);
+            employeeCard.add(nameVal);
+            employeeCard.add(genderLabel);
+            employeeCard.add(genderVal);
+            employeeCard.add(phoneLabel);
+            employeeCard.add(phoneVal);
+            employeeCard.add(emailLabel);
+            employeeCard.add(emailVal);
+            employeeCard.add(designationLabel);
+            employeeCard.add(designationVal);
+            employeeCard.add(salaryLabel);
+            employeeCard.add(salaryVal);
+
+            employeeCard.setSize(1000, 400);
+            employeeCard.setBackground(new Color(166, 209, 230));
+            employeeCard.setBorder(new EmptyBorder(20, 50, 20, 50));
             GridLayout cardLayout = new GridLayout(0, 2);
             cardLayout.setHgap(5);
             cardLayout.setVgap(10);
-            managerCard.setLayout(cardLayout);
-            panel.add(managerCard);
+            employeeCard.setLayout(cardLayout);
+            panel.add(employeeCard);
         }
 
         JPanel buttonPanel = new JPanel();
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("Voltar");
         backButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         backButton.setBounds(450, 30, 200,50);
         backButton.setFocusPainted(false);
 
         backButton.addActionListener(actionListener -> {
             frame.dispose();
-            manFrame.setVisible(true);
+            empFrame.setVisible(true);
         });
         buttonPanel.add(backButton);
         buttonPanel.setLayout(null);
         buttonPanel.setBackground(new Color(254, 251, 246));
         panel.add(buttonPanel);
-
 
         GridLayout layout = new GridLayout(0, 1);
         layout.setVgap(30);
@@ -196,14 +211,25 @@ public class ManagerManagementPanel extends FlightManagementSystem{
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addManager() throws SQLException  {
+    public void addEmployee() throws SQLException  {
 
-        manFrame.setVisible(false);
+        empFrame.setVisible(false);
 
-        JFrame frame=new JFrame("Manager Records");
+        JFrame frame=new JFrame("Lista Funcionarios");
         JPanel panel=new JPanel();
+        JLabel unameLabel = new JLabel("Entrar Usuario");
+        unameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-        JLabel idLabel = new JLabel("Enter ID");
+        JTextField unameVal = new JTextField("");
+        unameVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JLabel passLabel = new JLabel("Entrar Senha");
+        passLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JTextField passVal = new JTextField("");
+        passVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JLabel idLabel = new JLabel("Entrar ID");
         idLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
         JTextField idVal = new JTextField("");
@@ -213,41 +239,56 @@ public class ManagerManagementPanel extends FlightManagementSystem{
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-                    e.consume();
+                    e.consume();  // if it's not a number, ignore the event
                 }
             }
         });
 
-        JLabel unameLabel = new JLabel("Give username");
-        unameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-        JTextField unameVal = new JTextField("");
-        unameVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-        JLabel passLabel = new JLabel("Give password");
-        passLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-        JTextField passVal = new JTextField("");
-        passVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-        JLabel nameLabel = new JLabel("Enter Name");
+        JLabel nameLabel = new JLabel("Inserir Nome");
         nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
         JTextField nameVal = new JTextField("");
         nameVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-        JLabel emailLabel = new JLabel("Enter Email Address");
+        JLabel genderLabel = new JLabel("Inserir Generor");
+        genderLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JComboBox<String> genderVal = new JComboBox<>(new String[]{"Masculino", "Feminino"});
+        genderVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JLabel phoneLabel = new JLabel("Inserir numero de telefone");
+        phoneLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JTextField phoneVal = new JTextField("");
+        phoneVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JLabel emailLabel = new JLabel("Inserir endereço de email");
         emailLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
         JTextField emailVal = new JTextField("");
         emailVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-        JLabel deptLabel = new JLabel("Enter Department");
-        deptLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        JLabel designationLabel = new JLabel("Inserir Designação");
+        designationLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-        JTextField deptVal = new JTextField("");
-        deptVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        JTextField designationVal = new JTextField("");
+        designationVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
+        JLabel salaryLabel = new JLabel("Inserir Salario ($)");
+        salaryLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JTextField salaryVal = new JTextField("");
+        salaryVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        salaryVal.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
         panel.add(unameLabel);
         panel.add(unameVal);
         panel.add(passLabel);
@@ -256,10 +297,17 @@ public class ManagerManagementPanel extends FlightManagementSystem{
         panel.add(idVal);
         panel.add(nameLabel);
         panel.add(nameVal);
+        panel.add(genderLabel);
+        panel.add(genderVal);
+        panel.add(phoneLabel);
+        panel.add(phoneVal);
         panel.add(emailLabel);
         panel.add(emailVal);
-        panel.add(deptLabel);
-        panel.add(deptVal);
+        panel.add(designationLabel);
+        panel.add(designationVal);
+        panel.add(salaryLabel);
+        panel.add(salaryVal);
+
 
         GridLayout cardLayout = new GridLayout(0, 2);
         cardLayout.setHgap(60);
@@ -270,18 +318,18 @@ public class ManagerManagementPanel extends FlightManagementSystem{
         panel.setBackground(new Color(166, 209, 230));
         panel.setBorder(new EmptyBorder(20, 50, 20, 50));
 
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("Voltar");
         backButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         backButton.setBounds(450, 30, 200,50);
         backButton.setFocusPainted(false);
 
         backButton.addActionListener(actionListener -> {
             frame.dispose();
-            manFrame.setVisible(true);
+            empFrame.setVisible(true);
         });
         panel.add(backButton);
 
-        JButton submitButton = new JButton("Submit");
+        JButton submitButton = new JButton("Enviar");
         submitButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         submitButton.setBounds(450, 30, 200,50);
         submitButton.setFocusPainted(false);
@@ -294,37 +342,43 @@ public class ManagerManagementPanel extends FlightManagementSystem{
             PreparedStatement pstmt = null;
             Statement statement = null;
             try {
-                String query = "INSERT INTO manager(username, password, id, name, email, department) " +
-                        "VALUES (?, ?, ?, ?, ?, ?)";
+                String query = "INSERT INTO employee(username, password, id, name, gender, phonenum, email, designation, salary) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 pstmt = conn.prepareStatement(query);
 
                 String uname = unameVal.getText();
                 String pass = passVal.getText();
                 int id = Integer.parseInt(idVal.getText());
                 String name = nameVal.getText();
+                String gender = (String) genderVal.getSelectedItem();
+                int phonenum = Integer.parseInt(phoneVal.getText());
                 String email = emailVal.getText();
-                String department = deptVal.getText();
+                String designation = designationVal.getText();
+                int salary = Integer.parseInt(salaryVal.getText());
 
                 pstmt.setString(1, uname);
                 pstmt.setString(2, pass);
                 pstmt.setInt(3, id);
                 pstmt.setString(4, name);
-                pstmt.setString(5, email);
-                pstmt.setString(6, department);
+                pstmt.setString(5, gender);
+                pstmt.setInt(6, phonenum);
+                pstmt.setString(7, email);
+                pstmt.setString(8, designation);
+                pstmt.setInt(9, salary);
 
                 int rows = pstmt.executeUpdate();
 
                 if (rows > 0) {
-                    System.out.println("Gerente adicionado(a) com sucesso.");
+                    System.out.println("Funcionario foi adicionado");
                 } else {
-                    System.out.println("Não foi possivel adicionar gerente.");
+                    System.out.println("Não foi possivel adicionar funcionario");
                 }
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
 
-            manFrame.setVisible(true);
+            empFrame.setVisible(true);
             frame.dispose();
 
         });
@@ -344,12 +398,12 @@ public class ManagerManagementPanel extends FlightManagementSystem{
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void editManager() throws SQLException {
-        manFrame.setVisible(false);
+    public void editEmployee() throws SQLException {
+        empFrame.setVisible(false);
 
-        JFrame frame = new JFrame("Editar Gerente");
+        JFrame frame = new JFrame("Editar Funcionario");
 
-        JLabel label = new JLabel("Inserir ID de gerente");
+        JLabel label = new JLabel("Entrar id do funcionario");
         label.setFont(new Font("Times New Roman", Font.BOLD, 20));
         label.setBounds(250,200,200,50);
         frame.add(label);
@@ -362,18 +416,18 @@ public class ManagerManagementPanel extends FlightManagementSystem{
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-                    e.consume();  // if it's not a number, ignore the event
+                    e.consume();
                 }
             }
         });
 
-        JButton backButton = new JButton("Voltar");
+        JButton backButton = new JButton("voltar");
         backButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         backButton.setBounds(275, 400, 150,40);
         backButton.setFocusPainted(false);
 
         backButton.addActionListener(actionListener -> {
-            manFrame.setVisible(true);
+            empFrame.setVisible(true);
             frame.dispose();
 
         });
@@ -390,7 +444,7 @@ public class ManagerManagementPanel extends FlightManagementSystem{
             Connection conn = jdbcConnector.getConnection();
             jdbcConnector.connect();
             int id = Integer.parseInt(idVal.getText());
-            String q = "select * from manager where id = ?";
+            String q = "select * from employee where id = ?";
             PreparedStatement pstmt = null;
             ResultSet resultSet = null;
             try {
@@ -399,11 +453,12 @@ public class ManagerManagementPanel extends FlightManagementSystem{
                 resultSet = pstmt.executeQuery();
                 if (resultSet.next()) {
                     System.out.println(resultSet.getString(2));
-                    editManagerHelper(id, frame);
+//                    return true;
+                    editEmployeeHelper(id, frame);
                 }
                 else{
                     JFrame popup = new JFrame("ID Invalido");
-                    JLabel popupMsg = new JLabel("O ID inserido é invalido.");
+                    JLabel popupMsg = new JLabel("O ID Inserido é invalido");
                     popupMsg.setBounds(20,10,300,50);
                     popupMsg.setFont(new Font("Times New Roman", Font.PLAIN, 20));
                     popup.add(popupMsg);
@@ -434,14 +489,14 @@ public class ManagerManagementPanel extends FlightManagementSystem{
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
-    public void editManagerHelper(int id, JFrame parentFrame) throws SQLException {
-        JFrame frame = new JFrame("Editar gerente.");
+    public void editEmployeeHelper(int id, JFrame parentFrame) throws SQLException {
+        JFrame frame = new JFrame("Editar funcionario");
         JPanel panel=new JPanel();
         JdbcConnector jdbcConnector = new JdbcConnector();
         jdbcConnector.connect();
         Connection conn = jdbcConnector.getConnection();
         jdbcConnector.connect();
-        String q = "select * from manager where id = ?";
+        String q = "select * from employee where id = ?";
         PreparedStatement pstmt = null;
         ResultSet resultSet = null;
         try {
@@ -453,46 +508,67 @@ public class ManagerManagementPanel extends FlightManagementSystem{
             throwables.printStackTrace();
         }
 
-        JLabel unameLabel = new JLabel("Usuario");
-        unameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-        JTextField unameVal = new JTextField(resultSet.getString(1));
-        unameVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-        JLabel passLabel = new JLabel("Senha");
-        passLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
-        JTextField passVal = new JTextField(resultSet.getString(2));
-        passVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
         JLabel nameLabel = new JLabel("Nome");
         nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
         JTextField nameVal = new JTextField(resultSet.getString(4));
         nameVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
+        JLabel genderLabel = new JLabel("Genero");
+        genderLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        String gender = resultSet.getString(5);
+        JComboBox<String> genderVal = new JComboBox<>(new String[]{"Masculino", "Feminino"});
+        genderVal.setSelectedIndex(gender.equals("Masculino") ? 0 : 1 );
+        genderVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JLabel phoneLabel = new JLabel("Numero de telefone");
+        phoneLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JTextField phoneVal = new JTextField(String.valueOf(resultSet.getInt(6)));
+        phoneVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
         JLabel emailLabel = new JLabel("Email");
         emailLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-        JTextField emailVal = new JTextField(resultSet.getString(5));
+        JTextField emailVal = new JTextField(resultSet.getString(7));
         emailVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-        JLabel deptLabel = new JLabel("Email");
-        deptLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        JLabel designationLabel = new JLabel("Designação");
+        designationLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-        JTextField deptVal = new JTextField(resultSet.getString(6));
-        deptVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        JTextField designationVal = new JTextField(resultSet.getString(8));
+        designationVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
-        panel.add(unameLabel);
-        panel.add(unameVal);
-        panel.add(passLabel);
-        panel.add(passVal);
+        JLabel salaryLabel = new JLabel("Salario");
+        salaryLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        JTextField salaryVal = new JTextField(String.valueOf(resultSet.getInt(9)));
+        salaryVal.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+        salaryVal.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                    e.consume();
+                }
+            }
+        });
+
         panel.add(nameLabel);
         panel.add(nameVal);
+        panel.add(genderLabel);
+        panel.add(genderVal);
+        panel.add(phoneLabel);
+        panel.add(phoneVal);
         panel.add(emailLabel);
         panel.add(emailVal);
-        panel.add(deptLabel);
-        panel.add(deptVal);
+        panel.add(designationLabel);
+        panel.add(designationVal);
+        panel.add(salaryLabel);
+        panel.add(salaryVal);
+
 
         GridLayout cardLayout = new GridLayout(0, 2);
         cardLayout.setHgap(60);
@@ -510,7 +586,7 @@ public class ManagerManagementPanel extends FlightManagementSystem{
 
         backButton.addActionListener(actionListener -> {
             frame.dispose();
-            manFrame.setVisible(true);
+            empFrame.setVisible(true);
         });
         panel.add(backButton);
 
@@ -521,26 +597,28 @@ public class ManagerManagementPanel extends FlightManagementSystem{
 
         submitButton.addActionListener(actionListener -> {
             PreparedStatement ps  = null;
-            String uname = unameVal.getText();
-            String pass = passVal.getText();
             String name = nameVal.getText();
+            String genderValSelectedItem = (String) genderVal.getSelectedItem();
+            int phoneNum = Integer.parseInt(phoneVal.getText());
             String email = emailVal.getText();
-            String department = deptVal.getText();
-            String query = "update manager set username = ?, password = ?, name = ?, email = ?, department = ? where id = ?";
+            String designation = designationVal.getText();
+            int salary = Integer.parseInt(salaryVal.getText());
+            String query = "update employee set name = ?, gender = ?, phoneNum = ?, email = ?, designation = ?, salary = ? where id = ?";
             try {
                 ps = conn.prepareStatement(query);
-                ps.setString(1, uname);
-                ps.setString(2, pass);
-                ps.setString(3, name);
+                ps.setString(1, name);
+                ps.setString(2, genderValSelectedItem);
+                ps.setInt(3, phoneNum);
                 ps.setString(4, email);
-                ps.setString(5, department);
-                ps.setInt(6, id);
+                ps.setString(5, designation);
+                ps.setInt(6, salary);
+                ps.setInt(7, id);
                 ps.executeUpdate();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
 
-            manFrame.setVisible(true);
+            empFrame.setVisible(true);
             frame.dispose();
 
         });
@@ -561,12 +639,12 @@ public class ManagerManagementPanel extends FlightManagementSystem{
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void deleteManager(){
-        manFrame.setVisible(false);
+    public void deleteEmployee(){
+        empFrame.setVisible(false);
 
-        JFrame frame = new JFrame("Deletar Gerente");
+        JFrame frame = new JFrame("Deletar Funcionario");
 
-        JLabel label = new JLabel("Inserir ID de Gerente");
+        JLabel label = new JLabel("Enter id do funcionario");
         label.setFont(new Font("Times New Roman", Font.BOLD, 20));
         label.setBounds(250,200,200,50);
         frame.add(label);
@@ -579,7 +657,7 @@ public class ManagerManagementPanel extends FlightManagementSystem{
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-                    e.consume();  // if it's not a number, ignore the event
+                    e.consume();
                 }
             }
         });
@@ -590,7 +668,7 @@ public class ManagerManagementPanel extends FlightManagementSystem{
         backButton.setFocusPainted(false);
 
         backButton.addActionListener(actionListener -> {
-            manFrame.setVisible(true);
+            empFrame.setVisible(true);
             frame.dispose();
 
         });
@@ -607,7 +685,7 @@ public class ManagerManagementPanel extends FlightManagementSystem{
             Connection conn = jdbcConnector.getConnection();
             jdbcConnector.connect();
             int id = Integer.parseInt(idVal.getText());
-            String q = "select * from manager where id = ?";
+            String q = "select * from employee where id = ?";
             PreparedStatement pstmt = null;
             ResultSet resultSet = null;
             try {
@@ -617,17 +695,17 @@ public class ManagerManagementPanel extends FlightManagementSystem{
                 if (resultSet.next()) {
                     System.out.println(resultSet.getString(2));
 
-                    String deleteQuery = "delete from manager where id = ?";
+                    String deleteQuery = "delete from employee where id = ?";
                     pstmt = conn.prepareStatement(deleteQuery);
                     pstmt.setInt(1, id);
                     pstmt.executeUpdate();
-                    manFrame.setVisible(true);
+                    empFrame.setVisible(true);
                     frame.dispose();
 
                 }
                 else{
                     JFrame popup = new JFrame("ID Invalido");
-                    JLabel popupMsg = new JLabel("O ID inserido é invalido.");
+                    JLabel popupMsg = new JLabel("O ID inserido é invalido");
                     popupMsg.setBounds(20,10,300,50);
                     popupMsg.setFont(new Font("Times New Roman", Font.PLAIN, 20));
                     popup.add(popupMsg);

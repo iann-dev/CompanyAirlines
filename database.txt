@@ -1,0 +1,45 @@
+//// Add all this tables to your MySQL database
+
+CREATE TABLE employee (
+    username VARCHAR(20),
+    password VARCHAR(20),
+    id INT(20),
+    name VARCHAR(25),
+    gender VARCHAR(10),
+    phonenum INT(13),
+    email VARCHAR(25),
+    designation VARCHAR(20),
+    salary INT(20)
+);
+
+
+///Enter your values with insert command
+/// e.g. INSERT INTO employee (username, password, id, name, gender, phonenum, email, designation, salary)
+VALUES ('john_doe', 'password123', 1, 'John Doe', 'Male', 1234567890, 'john@example.com', 'Manager', 50000);
+
+
+CREATE TABLE manager (
+    username VARCHAR(20),
+    password VARCHAR(20),
+    id INT(20),
+    name VARCHAR(25),
+    email VARCHAR(25),
+    department VARCHAR(20)
+);
+
+
+///Enter your values with insert command
+
+/// similarly create table named "admins" with attribute like username and password
+
+
+CREATE TABLE empflightdetails(
+emp_id INT(20),
+fl_code INT(20),
+passport_no VARCHAR(20),
+source VARCHAR(20),
+destination VARCHAR(20));
+
+
+****Note: Here passport_no was changed to date of flight.*********
+
